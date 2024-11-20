@@ -5,10 +5,13 @@ FROM node:latest
 WORKDIR /app/frontend
 
 # ファイルを全部作業用ディレクトリにコピー
-COPY ./frontend/frontend .
+COPY ./frontend .
 
 # パッケージをインストール
 RUN npm install
 
 # コンテナを起動する際に実行するコマンド
 CMD [ "npm", "start" ]
+
+# ポートを公開
+EXPOSE 3000
