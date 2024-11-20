@@ -9,12 +9,7 @@ services:
       - "8000:80"
     depends_on:
       - database
-    environment:
-      - DB_HOST=database
-      - DB_PORT=5432
-      - DB_DATABASE=equipment_db
-      - DB_USERNAME=user
-      - DB_PASSWORD=password
+
   
   frontend:
     build: 
@@ -30,14 +25,25 @@ services:
     #   - app-network
 
   database:
-    image: postgres:latest
     container_name: postgres-db
-    environment:
-      POSTGRES_USER: user
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: equipment_db
+    build:
+      context: .
+      dockerfile: postgres/Dockerfile
+    platform: linux/x86_64
+    ports:
+      - "5432:5432"
     volumes:
       - ./database:/var/lib/postgresql/data
+    # ヘルスチェック
+    healthcheck:
+      test: pg_isready -U "${POSTGRES_USER:-postgres}" || exit 1
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    # コンテナ内の環境変数を.envを使って設定
+    env_file:
+      - .env
 
 volumes:
   database:
