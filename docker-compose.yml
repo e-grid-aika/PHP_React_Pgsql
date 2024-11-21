@@ -9,6 +9,8 @@ services:
       - "8000:80"
     depends_on:
       - database
+    networks:
+      - postgres_network
 
   
   frontend:
@@ -26,12 +28,15 @@ services:
 
   database:
     container_name: postgres-db
+    restart: always
     build:
       context: .
       dockerfile: postgres/Dockerfile
     platform: linux/x86_64
+    expose:
+      - "5432"
     ports:
-      - "5432:5432"
+      - "5555:5432"
     volumes:
       - ./database:/var/lib/postgresql/data
     # ヘルスチェック
@@ -44,6 +49,12 @@ services:
     # コンテナ内の環境変数を.envを使って設定
     env_file:
       - .env
+    networks:
+      - postgres_network
 
 volumes:
   database:
+
+networks:
+  postgres_network:
+    driver: bridge
