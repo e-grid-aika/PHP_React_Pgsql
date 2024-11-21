@@ -1,11 +1,16 @@
 import React, { useState } from "react";
-import { axios }  from "axios";
+import axios  from "axios";
 import { Button, CircularProgress, styled, TextField } from "@mui/material";
 import { useForm } from "react-hook-form";
 
 type FormData = {
   text: string;
 };
+
+interface ApiResponse {
+  error: boolean;
+  message: string;
+}
 
 export const App: React.FC = () => {
   const [message, setMessage] = useState("");
@@ -19,7 +24,7 @@ export const App: React.FC = () => {
 
   const onSubmit = async(data: FormData) => {
     try{
-      const res = await axios.post("http://localhost:8000/index.php",data);
+      const res = await axios.post<ApiResponse>("http://localhost:8000/index.php",data);
       setError(res.data.error);
       setMessage(res.data.message);
     }catch{
@@ -32,19 +37,19 @@ export const App: React.FC = () => {
     <>
       <Form onSubmit={handleSubmit(onSubmit)}>
         <TextField
+          {...register("text")} //フィールドを登録
           defaultValue=""
           margin="normal"
           variant="outlined"
-          name="text"
           error={error}
-          inputRef={register}
           helperText={message}
         />
         <Button
           type="submit"
           variant="contained"
           color="primary"
-          disabled={isSubmitting}>
+          disabled={isSubmitting}
+        >
           {isSubmitting ? <CircularProgress size={24} /> : "送信"}
         </Button>
       </Form>
