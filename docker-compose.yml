@@ -3,8 +3,11 @@ services:
     build: 
       context: ./backend
     container_name: php-app
+    working_dir: /var/www
     volumes:
-      - ./backend/src:/var/www/html
+      - "./backend/src:/var/www/html"
+      - "./backend/apache2/apache2.conf:/etc/apache2/apache2.conf"
+      - "./backend/apache2/sites-available/000-default.conf:/etc/apache2/sites-available/000-default.conf"
     ports:
       - "8000:80"
     depends_on:
