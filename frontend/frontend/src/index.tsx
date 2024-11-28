@@ -3,15 +3,20 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import {App} from './App';
 import reportWebVitals from './reportWebVitals';
-import InputForm from './components/InputForm'
+import InputForm from './components/InputForm';
+import InputFormDevice from './components/InputFormDevice';
+import GetUserInfo from './components/GetUserInfo';
+import { PCListTable } from './components/PCListTable';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
   <React.StrictMode>
-    <App />
-    <InputForm />
+    {/* <App /> */}
+    {/* <InputForm /> */}
+    {/* <GetUserInfo /> */}
+    <PCListTable />
   </React.StrictMode>
 );
 
