@@ -14,3 +14,12 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+input {
+  border: 2px #111010 solid;
+}
+select {
+  border: 2px #111010 solid;
+}
+button {
+  border: 2px #111010 solid;
+}

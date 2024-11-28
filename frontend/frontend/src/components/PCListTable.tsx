@@ -1,5 +1,4 @@
 import type { FC, SetStateAction } from "react";
-import { Card, Typography } from "@material-tailwind/react";
 import { useState } from "react";
 
 interface TableRow {
@@ -90,9 +89,265 @@ export const PCListTable: FC = () => {
     
   ];
 
+  const [tableRows, setTableRows] = useState<TableRow[]>(TABLE_ROWS);
+
+  const [items,setItem] = useState<Partial<TableRow>>({
+    maker: "",
+    model: "",
+    os: "",
+    cpu: "",
+    memory: "",
+    disk: "",
+    serialNumber: "",
+    macAddress: "",
+    virusSoft: "",
+    officeSoft: false,
+    instllationLocation: "",
+    user: "",
+    affiliation: "",
+    usage: "",
+    damageStatus: "",
+    storingPlace: "",
+    swapSchedule: false,
+    internship: false,
+    saleTarget: false,
+    disposalSchedule: false,
+    introductionDate: new Date(),
+    elapsedYears: 0,
+    disposalReturnDate: new Date(),
+    managementNumber: "",
+  });
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setItem((prev) => ({...prev,[e.target.name]: e.target.value}));
+  };
+  const handleSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setItem((prev) => ({
+      ...prev,
+      [e.target.name]: JSON.parse(e.target.value),
+    }));
+  };
+
+  //FIXME:登録ボタン押下時に入力内容が画面に反映されない項目が存在する
+  // Office,入れ替え予定、インターン、売却対象、廃棄予定
+  const onClickAdd = () => {
+    const newRow: TableRow = {
+      equipmentNumber: items.equipmentNumber || "",
+      maker: items.maker || "",
+      model: items.model || "",
+      os: items.os || "",
+      cpu: items.cpu || "",
+      memory: items.memory || "",
+      disk: items.disk || "",
+      serialNumber: items.serialNumber || "",
+      macAddress: items.macAddress || "",
+      virusSoft: items.virusSoft || "",
+      officeSoft: items.officeSoft ?? false,
+      instllationLocation: items.instllationLocation || "",
+      user: items.user || "",
+      affiliation: items.affiliation || "",
+      usage: items.usage || "",
+      damageStatus: items.damageStatus || "",
+      storingPlace: items.storingPlace || "",
+      swapSchedule: items.swapSchedule ?? false,
+      internship: items.internship ?? false,
+      saleTarget: items.saleTarget ?? false,
+      disposalSchedule: items.disposalSchedule ?? false,
+      introductionDate: items.introductionDate ? new Date(items.introductionDate) : new Date(),
+      elapsedYears: 0,
+      disposalReturnDate: items.disposalReturnDate ? new Date(items.disposalReturnDate) : new Date(),
+      managementNumber: items.managementNumber || "",
+    };
+
+    setTableRows((prev) => [...prev,newRow]);
+    console.log(tableRows);
+  };
+
   return (
     <>
       <div>
+        <h1>入力フォーム(PC)</h1>
+        <div className="inputPCForm">
+          <label htmlFor="maker">メーカー：</label>
+          <input
+            name="maker"
+            type="text" 
+            onChange={handleChange}
+          />
+          <br />
+          <label htmlFor="model">機種名：</label>
+          <input 
+            name="model"
+            type="text" 
+            onChange={handleChange}
+          />
+          <br />
+          <label htmlFor="os">OS:</label>
+          <input 
+            name="os"
+            type="text" 
+            onChange={handleChange}
+          />
+          <br />
+          <label htmlFor="cpu">CPU:</label>
+          <input 
+            name="cpu"
+            type="text" 
+            onChange={handleChange}
+          />
+          <br />
+          <label htmlFor="memory">メモリ:</label>
+          <input 
+            name="memory"
+            type="text" 
+            onChange={handleChange}
+          />
+          <br />
+          <label htmlFor="disk">ディスク種:</label>
+          <input 
+            name="disk"
+            type="text" 
+            onChange={handleChange}
+          />
+          <br />
+          <label htmlFor="serialNumber">シリアル番号:</label>
+          <input 
+            name="serialNumber"
+            type="text" 
+            onChange={handleChange}
+          />
+          <br />
+          <label htmlFor="macAddress">MACアドレス:</label>
+          <input 
+            name="macAddress"
+            type="text" 
+            onChange={handleChange}
+          />
+          <br />
+          <label htmlFor="virusSoft">ウィルスバスター:</label>
+          <input 
+            name="virusSoft"
+            type="text" 
+            onChange={handleChange}
+          />
+          <br />
+          <label htmlFor="officeSoft">Office:</label>
+          <select
+            name="officeSoft"
+            onChange={handleSelect}
+          >
+            <option value="true">〇</option>
+            <option value="false">×</option>
+          </select>
+          <br />
+          <label htmlFor="instllationLocation">設置場所:</label>
+          <input 
+            name="instllationLocation"
+            type="text" 
+            onChange={handleChange}
+          />
+          <br />
+          <label htmlFor="user">利用者:</label>
+          <input 
+            name="user"
+            type="text" 
+            onChange={handleChange}
+          />
+          <br />
+          <label htmlFor="affiliation">所属:</label>
+          <input 
+            name="affiliation"
+            type="text" 
+            onChange={handleChange}
+          />
+          <br />
+          <label htmlFor="usage">用途:</label>
+          <input 
+            name="usage"
+            type="text" 
+            onChange={handleChange}
+          />
+          <br />
+          <label htmlFor="damageStatus">破損状況・備考:</label>
+          <input 
+            name="damageStatus"
+            type="text" 
+            onChange={handleChange}
+          />
+          <br />
+          <label htmlFor="storingPlace">保管場所:</label>
+          <input 
+            name="storingPlace"
+            type="text" 
+            onChange={handleChange}
+          />
+          <br />
+          <label htmlFor="swapSchedule">入替予定:</label>
+          <select
+            name="swapSchedule"
+            onChange={handleSelect}
+          >
+            <option value="true">〇</option>
+            <option value="false">×</option>
+          </select>
+          <br />
+          <label htmlFor="internship">インターン:</label>
+          <select
+            name="internship"
+            onChange={handleSelect}
+          >
+            <option value="true">〇</option>
+            <option value="false">×</option>
+          </select>
+          <br />
+          <label htmlFor="saleTarget">売却対象:</label>
+          <select
+            name="saleTarget"
+            onChange={handleSelect}
+          >
+            <option value="true">〇</option>
+            <option value="false">×</option>
+          </select>
+          <br />
+          <label htmlFor="disposalSchedule">廃棄予定:</label>
+          <select
+            name="disposalSchedule"
+            onChange={handleSelect}
+          >
+            <option value="true">〇</option>
+            <option value="false">×</option>
+          </select>
+          <br />
+          <label htmlFor="introductionDate">導入日:</label>
+          <input 
+            name="introductionDate"
+            type="Date" 
+            onChange={handleChange}
+          />
+          <br />
+          <label htmlFor="elapsedYears">経過年数:</label>
+          <input 
+            name="elasedYears"
+            type="number" 
+            min={0} 
+            onChange={handleChange}
+          />
+          <br />
+          <label htmlFor="disposalReturnDate">廃棄・返却日:</label>
+          <input 
+            name="disposalReturnDate"
+            type="Date" 
+            onChange={handleChange}
+          />
+          <br />
+          <label htmlFor="managementNumber">リース管理番号:</label>
+          <input 
+            name="managementNumber"
+            type="text" 
+            onChange={handleChange}
+          />
+        </div>
+        <button onClick={onClickAdd}>登録</button>
       </div>
       <div className=" ml-[50px] whitespace-nowrap overflow-auto h-[500px] w-[90%] mt-[100px] top-0">
         <h1>PC管理表</h1>
@@ -106,9 +361,9 @@ export const PCListTable: FC = () => {
             </tr>
           </thead>
           <tbody>
-            {TABLE_ROWS.map((res, i) => {
+            {tableRows.map((res, i) => {
               return (
-                <tr key="{i}">
+                <tr key={i}>
                   <td className=" px-4 py-2 sticky left-0 z-[2] bg-slate-100 border ">
                     {res.equipmentNumber}
                   </td>
@@ -121,17 +376,27 @@ export const PCListTable: FC = () => {
                   <td className=" px-4 py-2 border ">{res.serialNumber}</td>
                   <td className=" px-4 py-2 border ">{res.macAddress}</td>
                   <td className=" px-4 py-2 border ">{res.virusSoft}</td>
-                  <td className=" px-4 py-2 border ">{res.officeSoft}</td>
+                  <td className=" px-4 py-2 border ">
+                    {res.officeSoft ? "〇" : "×"}
+                  </td>
                   <td className=" px-4 py-2 border ">{res.instllationLocation}</td>
                   <td className=" px-4 py-2 border ">{res.user}</td>
                   <td className=" px-4 py-2 border ">{res.affiliation}</td>
                   <td className=" px-4 py-2 border ">{res.usage}</td>
                   <td className=" px-4 py-2 border ">{res.damageStatus}</td>
                   <td className=" px-4 py-2 border ">{res.storingPlace}</td>
-                  <td className=" px-4 py-2 border ">{res.swapSchedule}</td>
-                  <td className=" px-4 py-2 border ">{res.internship}</td>
-                  <td className=" px-4 py-2 border ">{res.saleTarget}</td>
-                  <td className=" px-4 py-2 border ">{res.disposalSchedule}</td>
+                  <td className=" px-4 py-2 border ">
+                    {res.swapSchedule ? "〇" : "×"}
+                    </td>
+                  <td className=" px-4 py-2 border ">
+                    {res.internship ? "〇" : "×"}
+                  </td>
+                  <td className=" px-4 py-2 border ">
+                    {res.saleTarget ? "〇" : "×"}
+                  </td>
+                  <td className=" px-4 py-2 border ">
+                    {res.disposalSchedule ? "〇" : "×"}
+                  </td>
                   <td className=" px-4 py-2 border ">{res.introductionDate.toLocaleDateString()}</td>
                   <td className=" px-4 py-2 border ">{res.elapsedYears.toString()}年</td>
                   <td className=" px-4 py-2 border ">{res.disposalReturnDate.toLocaleDateString()}</td>
