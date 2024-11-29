@@ -1,7 +1,7 @@
 import type { FC, SetStateAction } from "react";
 import { useState } from "react";
 
-interface TableRow {
+interface TableRowProps {
   equipmentNumber: string;
   maker: string;
   model: string;
@@ -59,7 +59,7 @@ export const PCListTable: FC = () => {
   ];
 
   // 初期値
-  const initialTableRows: TableRow[] = [
+  const initialTableRows: TableRowProps[] = [
     {
       equipmentNumber: "SAMPLE001",
       maker: "DELL",
@@ -89,9 +89,11 @@ export const PCListTable: FC = () => {
     },
   ];
 
-  const [tableRows, setTableRows] = useState<TableRow[]>(initialTableRows);
+  // テーブルの状態を管理するステート
+  const [tableRows, setTableRows] = useState<TableRowProps[]>(initialTableRows);
 
-  const [items, setItem] = useState<TableRow>({
+  // フォームの状態を管理するステート
+  const [formValues, setFormValues] = useState<Partial<TableRowProps>>({
     equipmentNumber: "",
     maker: "",
     model: "",
@@ -118,62 +120,51 @@ export const PCListTable: FC = () => {
     disposalReturnDate: new Date(),
     managementNumber: "",
   });
-  
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value, type} = e.target;
-    setItem((prev) => ({
+    setFormValues((prev) => ({
       ...prev,
       [name]:
-        type === "number" ? parseInt(value,10):
-        type === "date" ? new Date(value):
-        value,
-    }));
-    console.log(value);
-  };
-  const handleSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const { name, value } = e.target;
-    setItem((prev) => ({
-      ...prev,
-      [name]: 
-        value === "true" ? true:
-        value === "false" ? false:
-        value,
+        type === "number" ? parseInt(value,10)
+        : type === "date" ? new Date(value)
+        : name === "officeSoft" || name === "swapSchedule" || name === "internship" || name === "saleTarget" || name === "disposalSchedule"
+        ? JSON.parse(value) // selectボックスの場合
+        : value, // その他は文字列 
     }));
   };
 
   const onClickAdd = () => {
-    const newRow: TableRow = {
-      equipmentNumber: items.equipmentNumber || "",
-      maker: items.maker || "",
-      model: items.model || "",
-      os: items.os || "",
-      cpu: items.cpu || "",
-      memory: items.memory || "",
-      disk: items.disk || "",
-      serialNumber: items.serialNumber || "",
-      macAddress: items.macAddress || "",
-      virusSoft: items.virusSoft || "",
-      officeSoft: items.officeSoft ?? false,
-      instllationLocation: items.instllationLocation || "",
-      user: items.user || "",
-      affiliation: items.affiliation || "",
-      usage: items.usage || "",
-      damageStatus: items.damageStatus || "",
-      storingPlace: items.storingPlace || "",
-      swapSchedule: items.swapSchedule ?? false,
-      internship: items.internship ?? false,
-      saleTarget: items.saleTarget ?? false,
-      disposalSchedule: items.disposalSchedule ?? false,
-      introductionDate: items.introductionDate ? new Date(items.introductionDate) : new Date(),
-      elapsedYears: items.elapsedYears,
-      disposalReturnDate: items.disposalReturnDate ? new Date(items.disposalReturnDate) : new Date(),
-      managementNumber: items.managementNumber || "",
+    const newRow: TableRowProps = {
+      equipmentNumber: formValues.equipmentNumber || "",
+      maker: formValues.maker || "",
+      model: formValues.model || "",
+      os: formValues.os || "",
+      cpu: formValues.cpu || "",
+      memory: formValues.memory || "",
+      disk: formValues.disk || "",
+      serialNumber: formValues.serialNumber || "",
+      macAddress: formValues.macAddress || "",
+      virusSoft: formValues.virusSoft || "",
+      officeSoft: formValues.officeSoft ?? true,
+      instllationLocation: formValues.instllationLocation || "",
+      user: formValues.user || "",
+      affiliation: formValues.affiliation || "",
+      usage: formValues.usage || "",
+      damageStatus: formValues.damageStatus || "",
+      storingPlace: formValues.storingPlace || "",
+      swapSchedule: formValues.swapSchedule ?? true,
+      internship: formValues.internship ?? true,
+      saleTarget: formValues.saleTarget ?? true,
+      disposalSchedule: formValues.disposalSchedule ?? true,
+      introductionDate: formValues.introductionDate ? new Date(formValues.introductionDate) : new Date(),
+      elapsedYears: formValues.elapsedYears || 0,
+      disposalReturnDate: formValues.disposalReturnDate ? new Date(formValues.disposalReturnDate) : new Date(),
+      managementNumber: formValues.managementNumber || "",
     };
-
-    setTableRows((prev) => [...prev,newRow]);
-    
-  };
+    setTableRows((prev) => [...prev, newRow]);
+    setFormValues({}); //フォームリセット
+  }
 
   return (
     <>
@@ -185,6 +176,7 @@ export const PCListTable: FC = () => {
             name="maker"
             type="text" 
             onChange={handleChange}
+            value={formValues.maker || ""}
           />
           <br />
           <label htmlFor="model">機種名：</label>
@@ -192,6 +184,7 @@ export const PCListTable: FC = () => {
             name="model"
             type="text" 
             onChange={handleChange}
+            value={formValues.model || ""}
           />
           <br />
           <label htmlFor="os">OS:</label>
@@ -199,6 +192,7 @@ export const PCListTable: FC = () => {
             name="os"
             type="text" 
             onChange={handleChange}
+            value={formValues.os || ""}
           />
           <br />
           <label htmlFor="cpu">CPU:</label>
@@ -206,6 +200,7 @@ export const PCListTable: FC = () => {
             name="cpu"
             type="text" 
             onChange={handleChange}
+            value={formValues.cpu || ""}
           />
           <br />
           <label htmlFor="memory">メモリ:</label>
@@ -213,6 +208,7 @@ export const PCListTable: FC = () => {
             name="memory"
             type="text" 
             onChange={handleChange}
+            value={formValues.memory || ""}
           />
           <br />
           <label htmlFor="disk">ディスク種:</label>
@@ -220,6 +216,7 @@ export const PCListTable: FC = () => {
             name="disk"
             type="text" 
             onChange={handleChange}
+            value={formValues.disk || ""}
           />
           <br />
           <label htmlFor="serialNumber">シリアル番号:</label>
@@ -227,6 +224,7 @@ export const PCListTable: FC = () => {
             name="serialNumber"
             type="text" 
             onChange={handleChange}
+            value={formValues.serialNumber || ""}
           />
           <br />
           <label htmlFor="macAddress">MACアドレス:</label>
@@ -234,6 +232,7 @@ export const PCListTable: FC = () => {
             name="macAddress"
             type="text" 
             onChange={handleChange}
+            value={formValues.macAddress || ""}
           />
           <br />
           <label htmlFor="virusSoft">ウィルスバスター:</label>
@@ -241,12 +240,14 @@ export const PCListTable: FC = () => {
             name="virusSoft"
             type="text" 
             onChange={handleChange}
+            value={formValues.virusSoft || ""}
           />
           <br />
           <label htmlFor="officeSoft">Office:</label>
           <select
             name="officeSoft"
-            onChange={handleSelect}
+            onChange={handleChange}
+            value={String(formValues.officeSoft)}
           >
             <option value="true">〇</option>
             <option value="false">×</option>
@@ -257,6 +258,7 @@ export const PCListTable: FC = () => {
             name="instllationLocation"
             type="text" 
             onChange={handleChange}
+            value={formValues.instllationLocation || ""}
           />
           <br />
           <label htmlFor="user">利用者:</label>
@@ -264,6 +266,7 @@ export const PCListTable: FC = () => {
             name="user"
             type="text" 
             onChange={handleChange}
+            value={formValues.user || ""}
           />
           <br />
           <label htmlFor="affiliation">所属:</label>
@@ -271,6 +274,7 @@ export const PCListTable: FC = () => {
             name="affiliation"
             type="text" 
             onChange={handleChange}
+            value={formValues.affiliation || ""}
           />
           <br />
           <label htmlFor="usage">用途:</label>
@@ -278,6 +282,7 @@ export const PCListTable: FC = () => {
             name="usage"
             type="text" 
             onChange={handleChange}
+            value={formValues.usage || ""}
           />
           <br />
           <label htmlFor="damageStatus">破損状況・備考:</label>
@@ -285,6 +290,7 @@ export const PCListTable: FC = () => {
             name="damageStatus"
             type="text" 
             onChange={handleChange}
+            value={formValues.damageStatus || ""}
           />
           <br />
           <label htmlFor="storingPlace">保管場所:</label>
@@ -292,12 +298,14 @@ export const PCListTable: FC = () => {
             name="storingPlace"
             type="text" 
             onChange={handleChange}
+            value={formValues.storingPlace || ""}
           />
           <br />
           <label htmlFor="swapSchedule">入替予定:</label>
           <select
             name="swapSchedule"
-            onChange={handleSelect}
+            onChange={handleChange}
+            value={String(formValues.swapSchedule)}
           >
             <option value="true">〇</option>
             <option value="false">×</option>
@@ -306,7 +314,8 @@ export const PCListTable: FC = () => {
           <label htmlFor="internship">インターン:</label>
           <select
             name="internship"
-            onChange={handleSelect}
+            onChange={handleChange}
+            value={String(formValues.internship)}
           >
             <option value="true">〇</option>
             <option value="false">×</option>
@@ -315,7 +324,8 @@ export const PCListTable: FC = () => {
           <label htmlFor="saleTarget">売却対象:</label>
           <select
             name="saleTarget"
-            onChange={handleSelect}
+            onChange={handleChange}
+            value={String(formValues.saleTarget)}
           >
             <option value="true">〇</option>
             <option value="false">×</option>
@@ -324,7 +334,8 @@ export const PCListTable: FC = () => {
           <label htmlFor="disposalSchedule">廃棄予定:</label>
           <select
             name="disposalSchedule"
-            onChange={handleSelect}
+            onChange={handleChange}
+            value={String(formValues.disposalSchedule)}
           >
             <option value="true">〇</option>
             <option value="false">×</option>
@@ -335,6 +346,11 @@ export const PCListTable: FC = () => {
             name="introductionDate"
             type="Date" 
             onChange={handleChange}
+            value={
+              formValues.introductionDate
+                ? formValues.introductionDate.toISOString().split("T")[0] // YYYY-MM-DD に変換
+                : ""
+            }
           />
           <br />
           <label htmlFor="elapsedYears">経過年数:</label>
@@ -343,6 +359,7 @@ export const PCListTable: FC = () => {
             type="number" 
             min={0} 
             onChange={handleChange}
+            value={String(formValues.elapsedYears)}
           />
           <br />
           <label htmlFor="disposalReturnDate">廃棄・返却日:</label>
@@ -350,6 +367,11 @@ export const PCListTable: FC = () => {
             name="disposalReturnDate"
             type="Date" 
             onChange={handleChange}
+            value={
+              formValues.disposalReturnDate
+                ? formValues.disposalReturnDate.toISOString().split("T")[0] // YYYY-MM-DD に変換
+                : ""
+            }
           />
           <br />
           <label htmlFor="managementNumber">リース管理番号:</label>
@@ -357,6 +379,7 @@ export const PCListTable: FC = () => {
             name="managementNumber"
             type="text" 
             onChange={handleChange}
+            value={formValues.managementNumber || ""}
           />
         </div>
         <button onClick={onClickAdd}>登録</button>
