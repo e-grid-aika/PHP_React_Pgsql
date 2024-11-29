@@ -4,19 +4,20 @@ import './index.css';
 import {App} from './App';
 import reportWebVitals from './reportWebVitals';
 import InputForm from './components/InputForm';
-import InputFormDevice from './components/InputFormDevice';
 import GetUserInfo from './components/GetUserInfo';
-import { PCListTable } from './components/PCListTable';
+import { App_PCTable } from './App_PCTable';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
   <React.StrictMode>
-    {/* <App /> */}
+    <App />
+    <App_PCTable />
     {/* <InputForm /> */}
     {/* <GetUserInfo /> */}
-    <PCListTable />
+    {/* <PCListTable /> */}
+    {/* <InputFormPC /> */}
   </React.StrictMode>
 );
 
