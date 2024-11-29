@@ -58,7 +58,8 @@ export const PCListTable: FC = () => {
     "リース・管理番号",
   ];
 
-  const TABLE_ROWS: TableRow[] = [
+  // 初期値
+  const initialTableRows: TableRow[] = [
     {
       equipmentNumber: "SAMPLE001",
       maker: "DELL",
@@ -86,12 +87,12 @@ export const PCListTable: FC = () => {
       disposalReturnDate: new Date("2023-04-18"),
       managementNumber: ""
     },
-    
   ];
 
-  const [tableRows, setTableRows] = useState<TableRow[]>(TABLE_ROWS);
+  const [tableRows, setTableRows] = useState<TableRow[]>(initialTableRows);
 
-  const [items,setItem] = useState<Partial<TableRow>>({
+  const [items, setItem] = useState<TableRow>({
+    equipmentNumber: "",
     maker: "",
     model: "",
     os: "",
@@ -101,35 +102,46 @@ export const PCListTable: FC = () => {
     serialNumber: "",
     macAddress: "",
     virusSoft: "",
-    officeSoft: false,
+    officeSoft: true,
     instllationLocation: "",
     user: "",
     affiliation: "",
     usage: "",
     damageStatus: "",
     storingPlace: "",
-    swapSchedule: false,
-    internship: false,
-    saleTarget: false,
-    disposalSchedule: false,
+    swapSchedule: true,
+    internship: true,
+    saleTarget: true,
+    disposalSchedule: true,
     introductionDate: new Date(),
     elapsedYears: 0,
     disposalReturnDate: new Date(),
     managementNumber: "",
   });
+  
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setItem((prev) => ({...prev,[e.target.name]: e.target.value}));
-  };
-  const handleSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const { name, value, type} = e.target;
     setItem((prev) => ({
       ...prev,
-      [e.target.name]: JSON.parse(e.target.value),
+      [name]:
+        type === "number" ? parseInt(value,10):
+        type === "date" ? new Date(value):
+        value,
+    }));
+    console.log(value);
+  };
+  const handleSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setItem((prev) => ({
+      ...prev,
+      [name]: 
+        value === "true" ? true:
+        value === "false" ? false:
+        value,
     }));
   };
 
-  //FIXME:登録ボタン押下時に入力内容が画面に反映されない項目が存在する
-  // Office,入れ替え予定、インターン、売却対象、廃棄予定
   const onClickAdd = () => {
     const newRow: TableRow = {
       equipmentNumber: items.equipmentNumber || "",
@@ -154,13 +166,13 @@ export const PCListTable: FC = () => {
       saleTarget: items.saleTarget ?? false,
       disposalSchedule: items.disposalSchedule ?? false,
       introductionDate: items.introductionDate ? new Date(items.introductionDate) : new Date(),
-      elapsedYears: 0,
+      elapsedYears: items.elapsedYears,
       disposalReturnDate: items.disposalReturnDate ? new Date(items.disposalReturnDate) : new Date(),
       managementNumber: items.managementNumber || "",
     };
 
     setTableRows((prev) => [...prev,newRow]);
-    console.log(tableRows);
+    
   };
 
   return (
@@ -327,7 +339,7 @@ export const PCListTable: FC = () => {
           <br />
           <label htmlFor="elapsedYears">経過年数:</label>
           <input 
-            name="elasedYears"
+            name="elapsedYears"
             type="number" 
             min={0} 
             onChange={handleChange}
