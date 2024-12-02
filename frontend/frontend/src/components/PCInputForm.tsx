@@ -1,14 +1,13 @@
-import type { FC, SetStateAction } from "react";
+import type { FC } from "react";
 import { useState } from "react";
 import { TextField,
   MenuItem,
   Select,
   FormControl,
-  InputLabel,
   Button,
   Box,
+  SelectChangeEvent,
 } from "@mui/material";
-import { SelectChangeEvent } from "@mui/material";
 
 interface TableRowProps {
   equipmentNumber: string;
@@ -71,33 +70,38 @@ export const PCInputForm: FC<InputFormProps> = ({onAddRow}) => {
     managementNumber: "",
   });
 
-const handleChange = (
-  e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement> | SelectChangeEvent<string>
-) => {
-  if ("type" in e.target) {
-    // HTMLInputElement, HTMLTextAreaElement, HTMLSelectElement の場合
-    const { name, value, type } = e.target;
-    setFormValues((prev) => ({
-      ...prev,
-      [name]:
-        type === "number" ? parseInt(value, 10) :
-        type === "date" ? new Date(value) :
-        ["officeSoft", "swapSchedule", "internship", "saleTarget", "disposalSchedule"].includes(name)
-          ? JSON.parse(value)
-          : value,
-    }));
-  } else {
-    // Material-UI の SelectChangeEvent の場合
-    const { name, value } = e.target;
-    setFormValues((prev) => ({
-      ...prev,
-      [name]:
-        ["officeSoft", "swapSchedule", "internship", "saleTarget", "disposalSchedule"].includes(name)
-          ? JSON.parse(value)
-          : value,
-    }));
-  }
-};
+  const buttonStyle = {
+    width: 300,
+    margin: "0 auto",
+  };
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement> | SelectChangeEvent<string>
+  ) => {
+    if ("type" in e.target) {
+      // HTMLInputElement, HTMLTextAreaElement, HTMLSelectElement の場合
+      const { name, value, type } = e.target;
+      setFormValues((prev) => ({
+        ...prev,
+        [name]:
+          type === "number" ? parseInt(value, 10) :
+          type === "date" ? new Date(value) :
+          ["officeSoft", "swapSchedule", "internship", "saleTarget", "disposalSchedule"].includes(name)
+            ? JSON.parse(value)
+            : value,
+      }));
+    } else {
+      // Material-UI の SelectChangeEvent の場合
+      const { name, value } = e.target;
+      setFormValues((prev) => ({
+        ...prev,
+        [name]:
+          ["officeSoft", "swapSchedule", "internship", "saleTarget", "disposalSchedule"].includes(name)
+            ? JSON.parse(value)
+            : value,
+      }));
+    }
+  };
 
 
   const handleSubmit = () => {
@@ -134,224 +138,151 @@ const handleChange = (
 
   return (
     <>
-      <Box p={2} display="flex" flexDirection="column" gap={2}>
+      <Box 
+        p={2} 
+        display="flex" 
+        flexDirection="column" 
+        gap={2}
+        sx={{
+          width: 400,
+          margin: "0 auto",
+        }}
+      >
         <h1>入力フォーム(PC)</h1>
         <div className="inputPCForm">
-          <label htmlFor="maker">メーカー：</label>
-          <TextField
-            name="maker"
-            type="text" 
-            onChange={handleChange}
-            value={formValues.maker || ""}
-          />
-          <br />
-          <label htmlFor="model">機種名：</label>
-          <TextField 
-            name="model"
-            type="text" 
-            onChange={handleChange}
-            value={formValues.model || ""}
-          />
-          <br />
-          <label htmlFor="os">OS:</label>
-          <TextField 
-            name="os"
-            type="text" 
-            onChange={handleChange}
-            value={formValues.os || ""}
-          />
-          <br />
-          <label htmlFor="cpu">CPU:</label>
-          <TextField
-            name="cpu"
-            type="text" 
-            onChange={handleChange}
-            value={formValues.cpu || ""}
-          />
-          <br />
-          <label htmlFor="memory">メモリ:</label>
-          <TextField 
-            name="memory"
-            type="text" 
-            onChange={handleChange}
-            value={formValues.memory || ""}
-          />
-          <br />
-          <label htmlFor="disk">ディスク種:</label>
-          <TextField 
-            name="disk"
-            type="text" 
-            onChange={handleChange}
-            value={formValues.disk || ""}
-          />
-          <br />
-          <label htmlFor="serialNumber">シリアル番号:</label>
-          <TextField 
-            name="serialNumber"
-            type="text" 
-            onChange={handleChange}
-            value={formValues.serialNumber || ""}
-          />
-          <br />
-          <label htmlFor="macAddress">MACアドレス:</label>
-          <TextField
-            name="macAddress"
-            type="text" 
-            onChange={handleChange}
-            value={formValues.macAddress || ""}
-          />
-          <br />
-          <label htmlFor="virusSoft">ウィルスバスター:</label>
-          <TextField 
-            name="virusSoft"
-            type="text" 
-            onChange={handleChange}
-            value={formValues.virusSoft || ""}
-          />
-          <br />
-          <label htmlFor="officeSoft">Office:</label>
-          <FormControl>
-            {/* <InputLabel>Office</InputLabel> */}
-            <Select
-              name="officeSoft"
-              onChange={handleChange}
-              value={String(formValues.officeSoft)}
-            >
-              <MenuItem value="true">〇</MenuItem>
-              <MenuItem value="false">×</MenuItem>
-            </Select>
-          </FormControl>
-          <br />
-          <label htmlFor="instllationLocation">設置場所:</label>
-          <input 
-            name="instllationLocation"
-            type="text" 
-            onChange={handleChange}
-            value={formValues.instllationLocation || ""}
-          />
-          <br />
-          <label htmlFor="user">利用者:</label>
-          <input 
-            name="user"
-            type="text" 
-            onChange={handleChange}
-            value={formValues.user || ""}
-          />
-          <br />
-          <label htmlFor="affiliation">所属:</label>
-          <input 
-            name="affiliation"
-            type="text" 
-            onChange={handleChange}
-            value={formValues.affiliation || ""}
-          />
-          <br />
-          <label htmlFor="usage">用途:</label>
-          <input 
-            name="usage"
-            type="text" 
-            onChange={handleChange}
-            value={formValues.usage || ""}
-          />
-          <br />
-          <label htmlFor="damageStatus">破損状況・備考:</label>
-          <input 
-            name="damageStatus"
-            type="text" 
-            onChange={handleChange}
-            value={formValues.damageStatus || ""}
-          />
-          <br />
-          <label htmlFor="storingPlace">保管場所:</label>
-          <input 
-            name="storingPlace"
-            type="text" 
-            onChange={handleChange}
-            value={formValues.storingPlace || ""}
-          />
-          <br />
-          <label htmlFor="swapSchedule">入替予定:</label>
-          <select
-            name="swapSchedule"
-            onChange={handleChange}
-            value={String(formValues.swapSchedule)}
-          >
-            <option value="true">〇</option>
-            <option value="false">×</option>
-          </select>
-          <br />
-          <label htmlFor="internship">インターン:</label>
-          <select
-            name="internship"
-            onChange={handleChange}
-            value={String(formValues.internship)}
-          >
-            <option value="true">〇</option>
-            <option value="false">×</option>
-          </select>
-          <br />
-          <label htmlFor="saleTarget">売却対象:</label>
-          <select
-            name="saleTarget"
-            onChange={handleChange}
-            value={String(formValues.saleTarget)}
-          >
-            <option value="true">〇</option>
-            <option value="false">×</option>
-          </select>
-          <br />
-          <label htmlFor="disposalSchedule">廃棄予定:</label>
-          <select
-            name="disposalSchedule"
-            onChange={handleChange}
-            value={String(formValues.disposalSchedule)}
-          >
-            <option value="true">〇</option>
-            <option value="false">×</option>
-          </select>
-          <br />
-          <label htmlFor="introductionDate">導入日:</label>
-          <input 
-            name="introductionDate"
-            type="Date" 
-            onChange={handleChange}
-            value={
-              formValues.introductionDate
-                ? formValues.introductionDate.toISOString().split("T")[0] // YYYY-MM-DD に変換
-                : ""
-            }
-          />
-          <br />
-          <label htmlFor="elapsedYears">経過年数:</label>
-          <input 
-            name="elapsedYears"
-            type="number" 
-            min={0} 
-            onChange={handleChange}
-            value={String(formValues.elapsedYears)}
-          />
-          <br />
-          <label htmlFor="disposalReturnDate">廃棄・返却日:</label>
-          <input 
-            name="disposalReturnDate"
-            type="Date" 
-            onChange={handleChange}
-            value={
-              formValues.disposalReturnDate
-                ? formValues.disposalReturnDate.toISOString().split("T")[0] // YYYY-MM-DD に変換
-                : ""
-            }
-          />
-          <br />
-          <label htmlFor="managementNumber">リース管理番号:</label>
-          <input 
-            name="managementNumber"
-            type="text" 
-            onChange={handleChange}
-            value={formValues.managementNumber || ""}
-          />
+          <Box display="flex" flexDirection="column" gap={2}>
+            {[
+              { label: "メーカー", name: "maker", type: "text" },
+              { label: "機種名", name: "model", type: "text" },
+              { label: "OS", name: "os", type: "text" },
+              { label: "CPU", name: "cpu", type: "text" },
+              { label: "メモリ", name: "memory", type: "text" },
+              { label: "ディスク種", name: "disk", type: "text" },
+              { label: "シリアル番号", name: "serialNumber", type: "text" },
+              { label: "MACアドレス", name: "macAddress", type: "text" },
+              { label: "ウィルスバスター", name: "virusSoft", type: "text" },
+            ].map((field) => (
+              <Box key={field.name} display="flex" alignItems="center" gap={2}>
+                <label htmlFor={field.name} style={{ width: "300px", textAlign: "right" }}>
+                  {field.label}：
+                </label>
+                <TextField
+                  id={field.name}
+                  name={field.name}
+                  type={field.type}
+                  onChange={handleChange}
+                  value={formValues[field.name as keyof TableRowProps] || ""}
+                  size="small"
+                  fullWidth
+                />
+              </Box>
+            ))}
+            
+              <Box key="officeSoft" display="flex" alignItems="center" gap={2}>
+                <label htmlFor="officeSoft" style={{ width: "160px", textAlign: "right" }}>Office：</label>
+                <FormControl>
+                  {/* <InputLabel>Office</InputLabel> */}
+                  <Select
+                    name="officeSoft"
+                    onChange={handleChange}
+                    value={String(formValues.officeSoft)}
+                    size="small"
+                    fullWidth
+                  >
+                    <MenuItem value="true">〇</MenuItem>
+                    <MenuItem value="false">×</MenuItem>
+                  </Select>
+                </FormControl>
+              </Box>
+
+              {[
+                { label: "設置場所", name: "instllationLocation", type: "text" },
+                { label: "利用者", name: "user", type: "text" },
+                { label: "所属", name: "affiliation", type: "text" },
+                { label: "用途", name: "usage", type: "text" },
+                { label: "破損状況・備考", name: "damageStatus", type: "text" },
+                { label: "保管場所", name: "storingPlace", type: "text" },
+              ].map((field) => (
+                <Box key={field.name} display="flex" alignItems="center" gap={2}>
+                  <label htmlFor={field.name} style={{ width: "300px", textAlign: "right" }}>
+                    {field.label}：
+                  </label>
+                  <TextField
+                    id={field.name}
+                    name={field.name}
+                    type={field.type}
+                    onChange={handleChange}
+                    value={formValues[field.name as keyof TableRowProps] || ""}
+                    size="small"
+                    fullWidth
+                  />
+                </Box>
+              ))}
+
+              {[
+                { label: "入替予定", name: "swapSchedule" },
+                { label: "インターン", name: "internship" },
+                { label: "売却対象", name: "saleTarget" },
+                { label: "廃棄予定", name: "disposalSchedule" },
+              ].map((field) => (
+                <Box key={field.name} display="flex" alignItems="center" gap={2}>
+                  <label htmlFor={field.name} style={{ width: "160px", textAlign: "right" }}>
+                    {field.label}：
+                  </label>
+                  <FormControl>
+                    <Select
+                      id={field.name}
+                      name={field.name}
+                      onChange={handleChange}
+                      value={String(formValues.swapSchedule)}
+                      size="small"
+                      fullWidth
+                    >
+                      <MenuItem value="true">〇</MenuItem>
+                      <MenuItem value="false">×</MenuItem>
+                    </Select>
+                  </FormControl>
+                </Box>
+              ))}
+              {[
+                { label: "導入日", name: "introductionDate", type: "Date", 
+                  value: formValues.introductionDate
+                    ? formValues.introductionDate.toISOString().split("T")[0] // YYYY-MM-DD に変換
+                    : ""
+                },
+                { label: "経過年数", name: "elapsedYears", type: "number",
+                  value: String(formValues.elapsedYears)
+                },
+                { label: "廃棄・返却日", name: "disposalReturnDate", type: "Date",
+                  value: formValues.disposalReturnDate
+                  ? formValues.disposalReturnDate.toISOString().split("T")[0] // YYYY-MM-DD に変換
+                  : ""
+                },
+                { label: "リース管理番号", name: "managementNumber", type: "text",
+                  value: formValues.managementNumber || ""
+                },
+              ].map((field) => (
+                <Box key={field.name} display="flex" alignItems="center" gap={2}>
+                  <label htmlFor={field.name} style={{ width: "300px", textAlign: "right" }}>
+                    {field.label}：
+                  </label>
+                  <TextField
+                    id={field.name}
+                    name={field.name}
+                    type={field.type}
+                    onChange={handleChange}
+                    value={field.value}
+                    size="small"
+                    fullWidth
+                    inputProps={{
+                      min:0,
+                    }}
+                  />
+                </Box>
+              ))}
+          </Box>
         </div>
-        <Button variant="contained" onClick={handleSubmit}>登録</Button>
+        <Button style={buttonStyle} variant="contained" onClick={handleSubmit}>登録</Button>
       </Box>
     </>
   );
