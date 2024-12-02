@@ -14,9 +14,9 @@ interface TableRowProps {
   virusSoft: string;
   officeSoft: boolean;
   instllationLocation: string;
-  user: string;
+  pcUser: string;
   affiliation: string;
-  usage: string;
+  usageDevice: string;
   damageStatus: string;
   storingPlace: string;
   swapSchedule: boolean;
@@ -73,9 +73,9 @@ export const PCListTable: FC = () => {
       virusSoft: "2655",
       officeSoft: true,
       instllationLocation: "本社",
-      user: "ユーザー1",
+      pcUser: "ユーザー1",
       affiliation: "AAA",
-      usage: "業務用",
+      usageDevice: "業務用",
       damageStatus: "ディスプレイにヒビあり",
       storingPlace: "ロッカー右下",
       swapSchedule: false,
@@ -106,9 +106,9 @@ export const PCListTable: FC = () => {
     virusSoft: "",
     officeSoft: true,
     instllationLocation: "",
-    user: "",
+    pcUser: "",
     affiliation: "",
-    usage: "",
+    usageDevice: "",
     damageStatus: "",
     storingPlace: "",
     swapSchedule: true,
@@ -148,9 +148,9 @@ export const PCListTable: FC = () => {
       virusSoft: formValues.virusSoft || "",
       officeSoft: formValues.officeSoft ?? true,
       instllationLocation: formValues.instllationLocation || "",
-      user: formValues.user || "",
+      pcUser: formValues.pcUser || "",
       affiliation: formValues.affiliation || "",
-      usage: formValues.usage || "",
+      usageDevice: formValues.usageDevice || "",
       damageStatus: formValues.damageStatus || "",
       storingPlace: formValues.storingPlace || "",
       swapSchedule: formValues.swapSchedule ?? true,
@@ -261,12 +261,12 @@ export const PCListTable: FC = () => {
             value={formValues.instllationLocation || ""}
           />
           <br />
-          <label htmlFor="user">利用者:</label>
+          <label htmlFor="pcUser">利用者:</label>
           <input 
-            name="user"
+            name="pcUser"
             type="text" 
             onChange={handleChange}
-            value={formValues.user || ""}
+            value={formValues.pcUser || ""}
           />
           <br />
           <label htmlFor="affiliation">所属:</label>
@@ -277,12 +277,12 @@ export const PCListTable: FC = () => {
             value={formValues.affiliation || ""}
           />
           <br />
-          <label htmlFor="usage">用途:</label>
+          <label htmlFor="usageDevice">用途:</label>
           <input 
-            name="usage"
+            name="usageDevice"
             type="text" 
             onChange={handleChange}
-            value={formValues.usage || ""}
+            value={formValues.usageDevice || ""}
           />
           <br />
           <label htmlFor="damageStatus">破損状況・備考:</label>
@@ -415,9 +415,9 @@ export const PCListTable: FC = () => {
                     {res.officeSoft ? "〇" : "×"}
                   </td>
                   <td className=" px-4 py-2 border ">{res.instllationLocation}</td>
-                  <td className=" px-4 py-2 border ">{res.user}</td>
+                  <td className=" px-4 py-2 border ">{res.pcUser}</td>
                   <td className=" px-4 py-2 border ">{res.affiliation}</td>
-                  <td className=" px-4 py-2 border ">{res.usage}</td>
+                  <td className=" px-4 py-2 border ">{res.usageDevice}</td>
                   <td className=" px-4 py-2 border ">{res.damageStatus}</td>
                   <td className=" px-4 py-2 border ">{res.storingPlace}</td>
                   <td className=" px-4 py-2 border ">

@@ -15,9 +15,9 @@ interface TableRowProps {
   virusSoft: string;
   officeSoft: boolean;
   instllationLocation: string;
-  user: string;
+  pcUser: string;
   affiliation: string;
-  usage: string;
+  usageDevice: string;
   damageStatus: string;
   storingPlace: string;
   swapSchedule: boolean;

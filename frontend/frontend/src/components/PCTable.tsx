@@ -14,9 +14,9 @@ interface TableRowProps {
   virusSoft: string;
   officeSoft: boolean;
   instllationLocation: string;
-  user: string;
+  pcUser: string;
   affiliation: string;
-  usage: string;
+  usageDevice: string;
   damageStatus: string;
   storingPlace: string;
   swapSchedule: boolean;
@@ -95,9 +95,9 @@ export const PCTable: FC<PCTableProps> = ({ tableRows }) => {
                     {res.officeSoft ? "〇" : "×"}
                   </td>
                   <td className=" px-4 py-2 border ">{res.instllationLocation}</td>
-                  <td className=" px-4 py-2 border ">{res.user}</td>
+                  <td className=" px-4 py-2 border ">{res.pcUser}</td>
                   <td className=" px-4 py-2 border ">{res.affiliation}</td>
-                  <td className=" px-4 py-2 border ">{res.usage}</td>
+                  <td className=" px-4 py-2 border ">{res.usageDevice}</td>
                   <td className=" px-4 py-2 border ">{res.damageStatus}</td>
                   <td className=" px-4 py-2 border ">{res.storingPlace}</td>
                   <td className=" px-4 py-2 border ">

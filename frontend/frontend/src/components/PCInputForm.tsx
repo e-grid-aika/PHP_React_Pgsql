@@ -22,9 +22,9 @@ interface TableRowProps {
   virusSoft: string;
   officeSoft: boolean;
   instllationLocation: string;
-  user: string;
+  pcUser: string;
   affiliation: string;
-  usage: string;
+  usageDevice: string;
   damageStatus: string;
   storingPlace: string;
   swapSchedule: boolean;
@@ -55,9 +55,9 @@ export const PCInputForm: FC<InputFormProps> = ({onAddRow}) => {
     virusSoft: "",
     officeSoft: true,
     instllationLocation: "",
-    user: "",
+    pcUser: "",
     affiliation: "",
-    usage: "",
+    usageDevice: "",
     damageStatus: "",
     storingPlace: "",
     swapSchedule: true,
@@ -118,9 +118,9 @@ export const PCInputForm: FC<InputFormProps> = ({onAddRow}) => {
       virusSoft: formValues.virusSoft || "",
       officeSoft: formValues.officeSoft ?? true,
       instllationLocation: formValues.instllationLocation || "",
-      user: formValues.user || "",
+      pcUser: formValues.pcUser || "",
       affiliation: formValues.affiliation || "",
-      usage: formValues.usage || "",
+      usageDevice: formValues.usageDevice || "",
       damageStatus: formValues.damageStatus || "",
       storingPlace: formValues.storingPlace || "",
       swapSchedule: formValues.swapSchedule ?? true,
@@ -197,9 +197,9 @@ export const PCInputForm: FC<InputFormProps> = ({onAddRow}) => {
 
               {[
                 { label: "設置場所", name: "instllationLocation", type: "text" },
-                { label: "利用者", name: "user", type: "text" },
+                { label: "利用者", name: "pcUser", type: "text" },
                 { label: "所属", name: "affiliation", type: "text" },
-                { label: "用途", name: "usage", type: "text" },
+                { label: "用途", name: "usageDevice", type: "text" },
                 { label: "破損状況・備考", name: "damageStatus", type: "text" },
                 { label: "保管場所", name: "storingPlace", type: "text" },
               ].map((field) => (
