@@ -6,7 +6,7 @@ import { BrowserRouter,Link,Routes,Route } from 'react-router-dom'
 
 // import './App.css'
 import { Home } from './Home'
-import { PCTable } from './components/PCTable'
+import { PCInfo } from './components/PCInfo'
 import { PCInputForm } from './components/PCInputForm'
 import InputForm from './components/InputForm'
 import UserInfo from './components/userInfo'
@@ -39,7 +39,7 @@ export function App() {
         <br />
         <Routes>
           <Route path="/" element={<Home/>} />
-          <Route path="/pcListTable" element={<PCTable/>} />
+          <Route path="/pcListTable" element={<PCInfo/>} />
           <Route path="/pcInputForm" element={<PCInputForm/>} />
           <Route path="/inputForm" element={<InputForm/>} />
           <Route path="/userInfo" element={<UserInfo/>} />
