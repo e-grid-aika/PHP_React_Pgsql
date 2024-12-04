@@ -1,5 +1,5 @@
 import type { FC } from "react";
-import { useState } from "react";
+import { useState, FormEvent } from "react";
 import { TextField,
   MenuItem,
   Select,
@@ -8,7 +8,7 @@ import { TextField,
   Box,
   SelectChangeEvent,
 } from "@mui/material";
-import axios from "axios";
+import axios from 'axios';
 
 interface TableRowProps {
   equipmentNumber: string;
@@ -107,7 +107,9 @@ export const PCInputForm: FC = () => {
 
 
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (event: FormEvent) => {
+    event.preventDefault();
+
     const newRow: TableRowProps = {
       equipmentNumber: formValues.equipmentNumber || "",
       maker: formValues.maker || "",
@@ -151,7 +153,8 @@ export const PCInputForm: FC = () => {
         alert("データが正常に送信されました！");
         setFormValues({}); // フォームのリセット
       } else {
-        alert(`エラー：${response.data.message}`);
+        console.error('サーバーエラー:', response.data.message);
+        alert("エラーが発生しました：" + response.data.message);
       }
     } catch (error) {
       console.log(newRow);
