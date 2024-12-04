@@ -9,6 +9,7 @@ import { Home } from './Home'
 import { PCTable } from './components/PCTable'
 import { PCInputForm } from './components/PCInputForm'
 import InputForm from './components/InputForm'
+import UserInfo from './components/userInfo'
 
 export function App() {
   
@@ -29,6 +30,9 @@ export function App() {
             <li>
               <Link to="/inputForm">ユーザー登録フォーム</Link>
             </li>
+            <li>
+              <Link to="/userInfo">ユーザー情報</Link>
+            </li>
           </ul>
         </div>
         {/* <Router /> */}
@@ -38,6 +42,7 @@ export function App() {
           <Route path="/pcListTable" element={<PCTable/>} />
           <Route path="/pcInputForm" element={<PCInputForm/>} />
           <Route path="/inputForm" element={<InputForm/>} />
+          <Route path="/userInfo" element={<UserInfo/>} />
         </Routes>
 
 
