@@ -49,7 +49,7 @@ try {
 
   // SQL実行
   if($stmt->execute()){
-    echo json_encode(['success'=>true]);
+    echo json_encode(['success'=>true,'data'=>$data]);
   }else{
     echo json_encode(['success'=>false]);
   }

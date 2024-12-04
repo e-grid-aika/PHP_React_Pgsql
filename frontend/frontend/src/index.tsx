@@ -3,9 +3,7 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import {App} from './App';
 import reportWebVitals from './reportWebVitals';
-import InputForm from './components/InputForm';
 import GetUserInfo from './components/GetUserInfo';
-import { App_PCTable } from './App_PCTable';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -14,7 +12,6 @@ root.render(
   <React.StrictMode>
     <App />
     {/* <App_PCTable /> */}
-    {/* <InputForm /> */}
     {/* <GetUserInfo /> */}
     {/* <PCListTable /> */}
     {/* <InputFormPC /> */}

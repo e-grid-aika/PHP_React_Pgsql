@@ -8,6 +8,7 @@ import { BrowserRouter,Link,Routes,Route } from 'react-router-dom'
 import { Home } from './Home'
 import { PCTable } from './components/PCTable'
 import { PCInputForm } from './components/PCInputForm'
+import InputForm from './components/InputForm'
 
 export function App() {
   
@@ -25,6 +26,9 @@ export function App() {
             <li>
               <Link to="/pcInputForm">登録フォーム</Link>
             </li>
+            <li>
+              <Link to="/inputForm">ユーザー登録フォーム</Link>
+            </li>
           </ul>
         </div>
         {/* <Router /> */}
@@ -33,6 +37,7 @@ export function App() {
           <Route path="/" element={<Home/>} />
           <Route path="/pcListTable" element={<PCTable/>} />
           <Route path="/pcInputForm" element={<PCInputForm/>} />
+          <Route path="/inputForm" element={<InputForm/>} />
         </Routes>
 
 
