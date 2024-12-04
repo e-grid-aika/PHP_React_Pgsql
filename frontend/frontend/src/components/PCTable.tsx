@@ -13,7 +13,7 @@ interface TableRowProps {
   macAddress: string;
   virusSoft: string;
   officeSoft: boolean;
-  instllationLocation: string;
+  installationLocation: string;
   pcUser: string;
   affiliation: string;
   usageDevice: string;
@@ -29,11 +29,8 @@ interface TableRowProps {
   managementNumber: string;
 }
 
-interface PCTableProps {
-  tableRows: TableRowProps[];
-}
 
-export const PCTable: FC<PCTableProps> = ({ tableRows }) => {
+export const PCTable: FC = () => {
   const TABLE_HEAD = [
     // "設備番号",
     "メーカー",
@@ -76,7 +73,7 @@ export const PCTable: FC<PCTableProps> = ({ tableRows }) => {
             </tr>
           </thead>
           <tbody>
-            {tableRows.map((res, i) => {
+            {/* {tableRows.map((res, i) => {
               return (
                 <tr key={i}>
                   <td className=" px-4 py-2 sticky left-0 z-[2] bg-slate-100 border ">
@@ -94,7 +91,7 @@ export const PCTable: FC<PCTableProps> = ({ tableRows }) => {
                   <td className=" px-4 py-2 border ">
                     {res.officeSoft ? "〇" : "×"}
                   </td>
-                  <td className=" px-4 py-2 border ">{res.instllationLocation}</td>
+                  <td className=" px-4 py-2 border ">{res.installationLocation}</td>
                   <td className=" px-4 py-2 border ">{res.pcUser}</td>
                   <td className=" px-4 py-2 border ">{res.affiliation}</td>
                   <td className=" px-4 py-2 border ">{res.usageDevice}</td>
@@ -118,7 +115,7 @@ export const PCTable: FC<PCTableProps> = ({ tableRows }) => {
                   <td className=" px-4 py-2 border ">{res.managementNumber}</td>
                 </tr>
               );
-            })}
+            })} */}
           </tbody>
         </table>
       </div>

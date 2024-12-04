@@ -1,65 +1,42 @@
-import React, { useState } from "react";
-import axios  from "axios";
-import { Button, CircularProgress, styled, TextField } from "@mui/material";
-import { useForm } from "react-hook-form";
+import { useState } from 'react'
+import reactLogo from './assets/react.svg'
+import viteLogo from '/vite.svg'
 
-type FormData = {
-  text: string;
-};
+import { BrowserRouter,Link,Routes,Route } from 'react-router-dom'
 
-interface ApiResponse {
-  error: boolean;
-  message: string;
-}
+// import './App.css'
+import { Home } from './Home'
+import { PCTable } from './components/PCTable'
+import { PCInputForm } from './components/PCInputForm'
 
-export const App: React.FC = () => {
-  const [message, setMessage] = useState("");
-  const [error, setError] = useState(false);
-
-  const {
-    register,
-    handleSubmit,
-    formState: { isSubmitting },
-  } = useForm<FormData>();
-
-  const onSubmit = async(data: FormData) => {
-    try{
-      const res = await axios.post<ApiResponse>("http://localhost:8000/index.php",data);
-      setError(res.data.error);
-      setMessage(res.data.message);
-    }catch{
-      setError(true);
-      setMessage("通信に失敗しました");
-    }
-  };
-
-  return(
+export function App() {
+  
+  return (
     <>
-      <Form onSubmit={handleSubmit(onSubmit)}>
-        <TextField
-          {...register("text")} //フィールドを登録
-          defaultValue=""
-          margin="normal"
-          variant="outlined"
-          error={error}
-          helperText={message}
-        />
-        <Button
-          type="submit"
-          variant="contained"
-          color="primary"
-          disabled={isSubmitting}
-        >
-          {isSubmitting ? <CircularProgress size={24} /> : "送信"}
-        </Button>
-      </Form>
-    </>
-  );
-};
+      <BrowserRouter>
+        <div className='App'>
+          <ul>
+            <li>
+              <Link to="/">Home</Link>
+            </li>
+            <li>
+              <Link to="/pcListTable">PC一覧</Link>
+            </li>
+            <li>
+              <Link to="/pcInputForm">登録フォーム</Link>
+            </li>
+          </ul>
+        </div>
+        {/* <Router /> */}
+        <br />
+        <Routes>
+          <Route path="/" element={<Home/>} />
+          <Route path="/pcListTable" element={<PCTable/>} />
+          <Route path="/pcInputForm" element={<PCInputForm/>} />
+        </Routes>
 
-const Form = styled("form")({
-  display: "flex",
-  flexDirection: "column",
-  width: 300,
-  margin: "0 auto",
-});
+
+      </BrowserRouter>
+    </>
+  )
+}

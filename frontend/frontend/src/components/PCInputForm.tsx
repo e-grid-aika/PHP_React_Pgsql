@@ -8,6 +8,7 @@ import { TextField,
   Box,
   SelectChangeEvent,
 } from "@mui/material";
+import axios from "axios";
 
 interface TableRowProps {
   equipmentNumber: string;
@@ -21,7 +22,7 @@ interface TableRowProps {
   macAddress: string;
   virusSoft: string;
   officeSoft: boolean;
-  instllationLocation: string;
+  installationLocation: string;
   pcUser: string;
   affiliation: string;
   usageDevice: string;
@@ -36,12 +37,13 @@ interface TableRowProps {
   disposalReturnDate: Date;
   managementNumber: string;
 }
-
-interface InputFormProps {
-  onAddRow: (newRow: TableRowProps) => void;
+interface ApiResponse {
+  success: boolean;
+  error: boolean;
+  message: string;
 }
 
-export const PCInputForm: FC<InputFormProps> = ({onAddRow}) => {
+export const PCInputForm: FC = () => {
   const [formValues,setFormValues] = useState<Partial<TableRowProps>>({
     equipmentNumber: "",
     maker: "",
@@ -54,7 +56,7 @@ export const PCInputForm: FC<InputFormProps> = ({onAddRow}) => {
     macAddress: "",
     virusSoft: "",
     officeSoft: true,
-    instllationLocation: "",
+    installationLocation: "",
     pcUser: "",
     affiliation: "",
     usageDevice: "",
@@ -104,7 +106,8 @@ export const PCInputForm: FC<InputFormProps> = ({onAddRow}) => {
   };
 
 
-  const handleSubmit = () => {
+
+  const handleSubmit = async () => {
     const newRow: TableRowProps = {
       equipmentNumber: formValues.equipmentNumber || "",
       maker: formValues.maker || "",
@@ -117,7 +120,7 @@ export const PCInputForm: FC<InputFormProps> = ({onAddRow}) => {
       macAddress: formValues.macAddress || "",
       virusSoft: formValues.virusSoft || "",
       officeSoft: formValues.officeSoft ?? true,
-      instllationLocation: formValues.instllationLocation || "",
+      installationLocation: formValues.installationLocation || "",
       pcUser: formValues.pcUser || "",
       affiliation: formValues.affiliation || "",
       usageDevice: formValues.usageDevice || "",
@@ -132,7 +135,31 @@ export const PCInputForm: FC<InputFormProps> = ({onAddRow}) => {
       disposalReturnDate: formValues.disposalReturnDate ? new Date(formValues.disposalReturnDate) : new Date(),
       managementNumber: formValues.managementNumber || "",
     };
-    onAddRow(newRow); //親コンポーネントに新しい行を渡す
+
+    try {
+      const response = await axios.post<ApiResponse>(
+        'http://localhost:8000/api/insertDataPC.php'
+        ,newRow,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+
+      if (response.data.success) {
+        alert("データが正常に送信されました！");
+        setFormValues({}); // フォームのリセット
+      } else {
+        alert(`エラー：${response.data.message}`);
+      }
+    } catch (error) {
+      console.log(newRow);
+      console.error('Error:', error);
+      
+      alert("サーバー接続エラーです。");
+    }
+    
     setFormValues({}); //フォームリセット
   };
 
@@ -196,7 +223,7 @@ export const PCInputForm: FC<InputFormProps> = ({onAddRow}) => {
               </Box>
 
               {[
-                { label: "設置場所", name: "instllationLocation", type: "text" },
+                { label: "設置場所", name: "installationLocation", type: "text" },
                 { label: "利用者", name: "pcUser", type: "text" },
                 { label: "所属", name: "affiliation", type: "text" },
                 { label: "用途", name: "usageDevice", type: "text" },
@@ -234,7 +261,7 @@ export const PCInputForm: FC<InputFormProps> = ({onAddRow}) => {
                       id={field.name}
                       name={field.name}
                       onChange={handleChange}
-                      value={String(formValues.swapSchedule)}
+                      value={String(formValues[field.name as keyof TableRowProps])}
                       size="small"
                       fullWidth
                     >

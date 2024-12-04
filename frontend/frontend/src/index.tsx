@@ -13,7 +13,7 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <App />
-    <App_PCTable />
+    {/* <App_PCTable /> */}
     {/* <InputForm /> */}
     {/* <GetUserInfo /> */}
     {/* <PCListTable /> */}
