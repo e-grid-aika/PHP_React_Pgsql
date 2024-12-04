@@ -12,7 +12,7 @@
     "@types/jest": "^27.5.2",
     "@types/node": "^16.18.119",
     "@types/react-dom": "^18.3.1",
-    "axios": "^1.7.7",
+    "axios": "^1.7.8",
     "localforage": "^1.10.0",
     "match-sorter": "^8.0.0",
     "react": "^18.3.1",
